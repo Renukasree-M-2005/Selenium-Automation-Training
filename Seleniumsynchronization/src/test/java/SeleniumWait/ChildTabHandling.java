@@ -1,0 +1,25 @@
+package SeleniumWait;
+import java.time.Duration;
+import java.util.Set;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class ChildTabHandling {
+	
+	public static void main(String[] args) throws InterruptedException{
+		WebDriver driver=new ChromeDriver();
+		//driver.get("https://demoapps.qspiders.com/ui/pageLoad?sublist=0");
+		
+		driver.manage().timeouts().implicitlyWait(Duration .ofSeconds(20));
+		driver.get("https://demoapps.qspiders.com/ui/pageLoad?sublist=0");
+  driver.findElement(By.linkText("Open In New Tab")).click();
+  Set<String> allIds=driver.getWindowHandles();
+  allIds.remove(driver.getWindowHandle());//remove parent id
+  for(String child:allIds) {
+	  driver.switchTo().window(child);
+	  driver.findElement(By.id("email")).sendKeys("abc@gmail.com");
+  }
+}
+}
